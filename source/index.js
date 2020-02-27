@@ -103,7 +103,8 @@ const getApplePublicKey = async () => {
 };
 
 const verifyIdToken = async (idToken, clientID) => {
-  const applePublicKey = await getApplePublicKey();
+  const decodedToken = jwt.decode(identityToken, { complete: true });
+  const applePublicKey = await getAppleIDPublicKey(decodedToken.header.kid);
   const jwtClaims = jwt.verify(idToken, applePublicKey, { algorithms: 'RS256' });
 
   if (jwtClaims.iss !== TOKEN_ISSUER) throw new Error('id token not issued by correct OpenID provider - expected: ' + TOKEN_ISSUER + ' | from: ' + jwtClaims.iss);
