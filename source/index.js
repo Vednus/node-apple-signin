@@ -95,7 +95,6 @@ const getAppleIDPublicKey = async (kid) => {
   url.pathname = '/auth/keys';
 
   const data = await request({ url: url.toString(), method: 'GET' });
-  console.log(data)
   const keys = JSON.parse(data).keys;
   const key = keys.find(k => k.kid === kid);
 
